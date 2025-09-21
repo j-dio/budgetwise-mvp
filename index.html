@@ -1,7 +1,46 @@
+<!-- Template lamang po sa landing page (Tailwind CSS)-->
 <!DOCTYPE html>
-<head>
-  <title>BudegtWise</title>
-</head>
-<body>
-  Nice body!
-</body>
+<html lang="en">
+  <head>
+    <!-- specified the character encoding to UTF-8 to interpret and display
+   text and other characters correctly -->
+    <meta charset="UTF-8" />
+    <!-- controls the layout of the webpage on different devices 
+   width=device-width ensure the page's width matches the device's screen
+   width, and initial-scale=1.0 sets the inital zoom level to 100% -->
+    <meta name="viewport" content="width=device-width, initial-sacale=1.0" />
+    <title>BudegtWise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <!-- Hero Section 
+     section tag groups related content under a common theme
+     it's expected to have a heading element-->
+    <section class="flex flex-col items-center justify-center text-center min-h-screen px-6">
+      <h1 class="text-5xl font-extrabold mb-4">Take Control of Your Finances</h1>
+      <p class="text-lg text-gray-600 mb-6 max-w-xl">
+        BudgetWise helps you track spending, plan smarter, and save more - all in one simple app.
+      </p>
+      <div class="flex gap-4">
+        <a href="#download" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+          Get Started
+        </a>
+        <a
+          href="#features"
+          class="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg hover:bg-gray-300"
+        >
+          Learn More
+        </a>
+      </div>
+
+      <!-- Placeholder for app's display -->
+      <div class="mt-10">
+        <img
+          src="https://placehold.co/300x600?text=App+Preview"
+          alt="BudgetWise app preview"
+          class="rounded-xl shadow-lg"
+        />
+      </div>
+    </section>
+  </body>
+</html>
