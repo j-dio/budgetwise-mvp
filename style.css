@@ -112,6 +112,14 @@ body {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
+.evaluated-text {
+  font-family: Helvetica 'Courier New', Courier, monospace;
+  font-size: 20px;
+  font-weight: 200;
+  color: black;
+  margin-top: 10px;
+}
+
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
   .navbar {
