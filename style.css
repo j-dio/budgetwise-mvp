@@ -70,8 +70,8 @@ body {
 }
 
 .logo-text {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 650;
   letter-spacing: -0.1em;
 }
 
@@ -85,7 +85,7 @@ body {
 .nav-links a {
   color: #d1d5db;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   transition: color 0.2s ease;
 }
@@ -100,7 +100,7 @@ body {
   padding: 12px 24px;
   border-radius: 25px;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   transition: all 0.2s ease;
   border: none;
@@ -125,12 +125,12 @@ body {
   }
 
   .logo-text {
-    font-size: 18px;
+    font-size: 28px;
   }
 
   .cta-button {
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 
