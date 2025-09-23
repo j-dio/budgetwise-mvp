@@ -11,7 +11,7 @@ padding: 16px (for top and bot) 32px (for left and right)*/
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: #f5f5f5;
   padding: 40px 20px;
 }
@@ -49,25 +49,6 @@ body {
   display: block;
 }
 
-.logo-icon::before {
-  content: '';
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.logo-icon::after {
-  content: '';
-  width: 12px;
-  height: 12px;
-  background: #3b82f6;
-  border-radius: 50px;
-  position: absolute;
-  top: 6px;
-}
-
 .logo-text {
   font-size: 36px;
   font-weight: 650;
@@ -77,19 +58,20 @@ body {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 32px;
   list-style: none;
 }
 
 .nav-links a {
   color: #d1d5db;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: white;
 }
 
@@ -99,7 +81,7 @@ body {
   padding: 12px 24px;
   border-radius: 25px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   transition: all 0.2s ease;
   border: none;
@@ -112,24 +94,103 @@ body {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
-/* .evaluated {
-  display: flex;
-  align-items: center;
-
-} */
-
-.evaluated-text {
-  display: block;
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
   text-align: center;
-  font-family: Helvetica 'Courier New', Courier, monospace;
-  font-size: 20px;
-  font-weight: 200;
-  color: black;
-  margin-top: 100px;
+  padding-top: 60px;
 }
 
-img {
-  
+.evaluated-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.university-logos {
+  display: flex;
+  gap: 8px;
+}
+
+.evaluated-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #585c64;
+}
+
+.hero-section {
+  margin-bottom: 60px;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.try-now-button {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.try-now-button:hover {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.watch-demo-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.watch-demo-button:hover {
+  color: #1f2937;
+}
+
+.play-icon {
+  width: 20px;
+  height: 20px;
+  background: #1f2937;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
 }
 
 /* for mobile responsiveness daw as suggested by cgpt */
@@ -144,12 +205,21 @@ img {
   }
 
   .logo-text {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .cta-button {
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 14px;
+  }
+
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
@@ -165,5 +235,10 @@ img {
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .evaluated-section {
+    flex-direction: column;
+    gap: 12px;
   }
 }
