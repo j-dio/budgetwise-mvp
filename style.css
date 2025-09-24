@@ -199,6 +199,13 @@ body {
   font-size: 10px;
 }
 
+.mockup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
   .navbar {
