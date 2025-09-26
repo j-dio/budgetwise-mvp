@@ -217,49 +217,55 @@ body {
   width: 100%;
 }
 
-.mockup-img img {
+/* .mockup-img img {
   width: 100%;
   height: auto;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Floating Cards */
 .floating-card {
   position: absolute;
-  background: white;
+  /* background: white; */
   border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  /* padding: 20px; */
+  /* box-shadow: 0 8px 100px rgba(0, 0, 0, 0.12); */
   z-index: 1;
   animation: float 6s ease-in-out infinite;
 }
 
+.floating-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 .floating-card.p250-card {
   top: 20%;
-  left: 5%;
+  left: 10%;
   width: 200px;
   animation-delay: -1s;
 }
 
 .floating-card.scholarship-card {
-  bottom: 15%;
+  bottom: 0%;
   left: 8%;
   width: 220px;
   animation-delay: -3s;
 }
 
 .floating-card.ewallet-card {
-  top: 15%;
-  right: 5%;
-  width: 180px;
+  top: 20%;
+  right: 10%;
+  width: 240px;
   animation-delay: -2s;
 }
 
 .floating-card.tips-card {
   bottom: 20%;
   right: 8%;
-  width: 240px;
+  width: 250px;
   animation-delay: -4s;
 }
 
