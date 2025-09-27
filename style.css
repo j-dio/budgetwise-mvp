@@ -477,6 +477,46 @@ body {
   margin-top: 10px;
 }
 
+.features-section {
+  max-width: 1200px;
+  margin: 80px auto 80px auto;
+  padding: 0 20px;
+}
+
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  align-items: start;
+}
+
+.feature-column {
+  text-align: center;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.feature-icon {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: left;
+}
+
+.feature-icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.feature-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4b5563;
+  margin: 0;
+  text-align: left;
+  max-width: 250px;
+}
+
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
   .navbar {
@@ -518,6 +558,15 @@ body {
   .overview {
     font-size: 32px;
   }
+
+  .features-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .feature-description {
+    text-align: center;
+  }
 }
 
 @media (max-width: 640px) {
@@ -537,5 +586,13 @@ body {
   .evaluated-section {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .features-section {
+    margin: 40px auto 60px auto;
+  }
+
+  .features-container {
+    gap: 32px;
   }
 }
