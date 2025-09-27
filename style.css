@@ -542,12 +542,38 @@ body {
 .overview-img-ctn {
   background-color: #72adfd;
   width: 990px;
-  height: 688px;
+  height: 610px;
   border-radius: 24px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-top: 20px;
   margin: 0 auto;
+}
+
+.overview-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.overview-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  backdrop-filter: blur(6px);
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.02));
+  border-radius: 0 52px 52px 52px;
+  pointer-events: none;
+  mask: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 10%,
+    rgba(0, 0, 0, 0.7) 20%,
+    rgba(0, 0, 0, 1) 100%
+  );
 }
 
 /* for mobile responsiveness daw as suggested by cgpt */
