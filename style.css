@@ -623,33 +623,53 @@ body {
   margin-top: 10px;
 }
 
-.tools-section-left, .tools-section-right {
-  display: flex;
+.tools-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  grid-template-rows: auto auto;   
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.tools-card-left {
   background-color: #EFEFEF;
-  width: 620px;
-  height: 402px;
   border-radius: 32px;
-  margin-top: 24px;
-  margin-left: 36px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
   flex-direction: column;
-  padding-top: 30px;
-  padding-left: 20px;
 }
 
-.tools-section-left h1 {
+.tools-card-left h3 {
   text-align: left;
-  margin-top: 10px;
+  font-size: 14px;
+  line-height: 22px;
 }
 
-.tools-section-left h3 {
-  text-align: left;
+.tools-card-right {
+  background-color: #EFEFEF;
+  border-radius: 32px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 624px;
+  height: 402px;
 }
 
-.tools-section-left img {
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
+.tools-card-right img {
+  margin-top: 20px;
 }
+
+.tools-card-bottom {
+  grid-column: 1 / -1;
+  background-color: #EFEFEF;
+  border-radius: 32px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
 
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
