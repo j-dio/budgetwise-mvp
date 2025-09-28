@@ -611,6 +611,46 @@ body {
     rgba(0,0,0,1) 100%);
 }
 
+.tools-section h1 {
+  margin-top: 200px;
+  font-size: 44px;
+  text-align: center;
+}
+
+.tools-section h3 {
+  font-weight: 180;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.tools-section-left, .tools-section-right {
+  display: flex;
+  background-color: #EFEFEF;
+  width: 620px;
+  height: 402px;
+  border-radius: 32px;
+  margin-top: 24px;
+  margin-left: 36px;
+  flex-direction: column;
+  padding-top: 30px;
+  padding-left: 20px;
+}
+
+.tools-section-left h1 {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.tools-section-left h3 {
+  text-align: left;
+}
+
+.tools-section-left img {
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
   .navbar {
