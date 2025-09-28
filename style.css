@@ -745,6 +745,7 @@ body {
   margin-top: 0;
   margin-left: -20px;
   margin-right: -20px;
+  height: 1000px;
 }
 
 .services-container {
@@ -872,16 +873,45 @@ body {
   height: 100px;
 }
 
-.contact-section {
+.contact-section-top {
   margin-top: 100px;
   background: linear-gradient(135deg, #293F55 0%, #374151 100%);
   background-image: 
     linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
+  background-color: #293F55;
   padding: 100px 50px; /* This adds the space you need */
   text-align: center;
   min-height: 500px;
+}
+
+.contact-section-top h1 {
+  margin-top: 20px;
+  color: black;
+  margin-bottom: 20px;
+}
+
+.contact-section-top h3 {
+  margin-top: 0;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.contact-cta-btn {
+  margin-top: 40px;
+  color: white;
+  border: 0;
+  border-radius: 24px;
+  padding: 16px 30px;
+  background-color: #72ADFD;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.contact-cta-btn:hover {
+  background-color: #212f42;
+  color: white;
 }
 
 /* for mobile responsiveness daw as suggested by cgpt */
