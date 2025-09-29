@@ -1134,6 +1134,12 @@ body {
   }
 }
 
+.dev-names:hover {
+  transform: scale(1.1);
+  background-position: 200% center;
+  transition: transform 0.3s ease, background-position 1s ease;
+}
+
 /* for mobile responsiveness daw as suggested by cgpt */
 @media (max-width: 768px) {
   .navbar {
