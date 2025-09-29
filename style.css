@@ -622,6 +622,19 @@ body {
   );
 }
 
+.cards-ctn {
+  display: flex;
+  flex-direction: column; /* stack top + bottom */
+  max-width: 1300px; /* keeps everything contained */
+  margin: 0 auto; /* center on page */
+  gap: 20px;
+}
+
+.tools-section img {
+  display: block;
+  height: auto;
+}
+
 .tools-section h1 {
   margin-top: 200px;
   font-size: 44px;
@@ -634,20 +647,20 @@ body {
   margin-top: 10px;
 }
 
-.tools-section-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* equal columns */
-  gap: 20px;
+.tools-section-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* make both cards equal height */
   margin-top: 40px;
-  padding: 0 50px;
+  gap: 20px;
 }
 
 .tools-card-left {
+  flex: 1;
   background-color: #efefef;
   border-radius: 32px;
   padding: 30px;
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
 }
 
@@ -663,17 +676,20 @@ body {
   margin-top: 0px;
 }
 
+.tools-card-left img {
+  max-width: 590px;
+  width: 100%;
+  margin: 20px auto 0;
+}
+
 .tools-card-right {
+  flex: 1;
   background-color: #efefef;
   border-radius: 32px;
   padding: 30px;
   display: flex;
-  flex-direction: column;  /* keep column layout */
-  justify-content: space-between;
-  /* remove width & height */
-  max-width: 100%;
-  height: auto;
-  object-fit: contain; /* keeps proportions */
+  flex-direction: row;
+  gap: 16px;
 }
 
 .text-content-right h2 {
@@ -689,19 +705,27 @@ body {
   line-height: 1.5;
 }
 
+.tools-card-right img {
+  max-width: 294px;
+  width: 100%;
+  height: auto;
+  margin-left: auto; /* pushes it to the right side of card */
+}
+
 .tools-card-bottom {
-  grid-column: 1 / -1;
+  width: 100%;
   background-color: #efefef;
   border-radius: 32px;
   padding: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0px;
+  gap: 30px;
 }
 
 .tools-card-bottom img {
   max-width: 860px;
+  width: 100%;
   height: auto;
   flex-shrink: 0;
 }
@@ -916,8 +940,6 @@ body {
 .contact-section-bottom {
   background-color: #f3f4f6;
   padding: 30px 20px 40px 20px;
-  margin-left: -20px;
-  margin-right: -20px;
 }
 
 .footer-container {
