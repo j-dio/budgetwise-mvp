@@ -925,7 +925,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 80px;
   margin-bottom: 60px;
 }
@@ -988,10 +988,17 @@ body {
 }
 
 .footer-column h3 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 400;
   color: #1f2937;
   margin-bottom: 20px;
+  margin-left: 0;
+  letter-spacing: -0.06em;
+}
+
+.footer-column {
+  margin-top: 30px;
+  margin-left: 80px;
 }
 
 .footer-links {
@@ -1040,20 +1047,32 @@ body {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-right: -2px;
+}
+
+.dev-location-icon {
+  padding-right: -8px;
+}
+
+.email-ni-josef {
+  padding-top: 3px;
+}
+
+.dev-location {
+  padding-top: 5px;
+  margin-right: -2px;
 }
 
 .social-links {
   display: flex;
   gap: 12px;
   margin-top: 16px;
+  margin-left: 30px;
 }
 
 .social-link {
   width: 40px;
   height: 40px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
