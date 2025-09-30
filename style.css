@@ -14,6 +14,10 @@ html {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family:
     "Helvetica Neue",
@@ -24,7 +28,6 @@ body {
     "Segoe UI",
     Roboto,
     sans-serif;
-  padding: 40px 20px;
   background:
     radial-gradient(
       ellipse 800px 900px at 50% 30%,
@@ -914,7 +917,6 @@ section {
 
 .contact-section-top {
   position: relative;
-  margin-top: 100px;
   background-color: #293f55;
   padding: 100px 50px; /* This adds the space you need */
   text-align: center;
