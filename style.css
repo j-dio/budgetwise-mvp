@@ -140,6 +140,28 @@ section {
 .university-logos {
   display: flex;
   gap: 8px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.universities-logos img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.universities-logos img:not(:first-child) {
+  margin-left: -15px;
+}
+
+.universities-logos img:hover {
+  transform: translateY(-5px) scale(1.05);
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .evaluated-text {
