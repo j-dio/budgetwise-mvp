@@ -53,9 +53,3 @@ Open index.html directly in your browser, or run it with Live Server in VSCode.
 💾 Enable persistent data storage using local storage or a database
 
 🌐 Multi-currency support and export options (CSV, PDF)
-
-👤 Author
-
-Created by [Your Name]
-📧 [your.email@example.com
-]
