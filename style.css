@@ -901,11 +901,21 @@ body {
 }
 
 .contact-section-top {
+  position: relative;
   margin-top: 100px;
   background-color: #293f55;
   padding: 100px 50px; /* This adds the space you need */
   text-align: center;
   min-height: 500px;
+  overflow: hidden;
+}
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background: url("assets/grid-bg-contactTop.svg") center/cover no-repeat;
+  opacity: 0.2;
+  z-index: 0;
 }
 
 .contact-section-top h1 {
@@ -929,6 +939,8 @@ body {
   background-color: #72adfd;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .contact-cta-btn:hover {
