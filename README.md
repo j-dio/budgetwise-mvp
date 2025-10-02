@@ -30,7 +30,7 @@ Frontend: HTML, CSS, JavaScript
 
 Framework/Libraries: Vanilla (no heavy dependencies yet)
 
-Deployment: [GitHub Pages / Netlify / Vercel]
+Deployment: Vercel
 
 📦 Installation & Usage
 
