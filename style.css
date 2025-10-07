@@ -288,6 +288,25 @@ section {
   left: 10%;
   width: 200px;
   animation-delay: -1s;
+  cursor: pointer;
+}
+
+.floating-card.p250-card:hover {
+  animation-play-state: paused;
+  z-index: 10; /* Brings it above other cards */
+}
+
+/* Style the image inside the card */
+.floating-card.p250-card img {
+  transition: all 0.4s ease; /* Smooth transition for all properties */
+  border-radius: 16px; /* Matches the card design */
+}
+
+/* Hover state for the image - grows and adds glow */
+.floating-card.p250-card:hover img {
+  transform: scale(1.15); /* Makes it 15% bigger */
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) 
+          drop-shadow(0 0 60px rgba(59, 130, 246, 0.3)); /* Blue glow effect */
 }
 
 .floating-card.scholarship-card {
