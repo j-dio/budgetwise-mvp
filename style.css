@@ -305,8 +305,8 @@ section {
 /* Hover state for the image - grows and adds glow */
 .floating-card.p250-card:hover img {
   transform: scale(1.15); /* Makes it 15% bigger */
-  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) 
-          drop-shadow(0 0 60px rgba(59, 130, 246, 0.3)); /* Blue glow effect */
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
+    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3)); /* Blue glow effect */
 }
 
 .floating-card.scholarship-card {
@@ -314,6 +314,23 @@ section {
   left: 8%;
   width: 220px;
   animation-delay: -3s;
+  cursor: pointer;
+}
+
+.floating-card.scholarship-card:hover {
+  animation-play-state: paused;
+  z-index: 10;
+}
+
+.floating-card.scholarship-card img {
+  transition: all 0.4s ease;
+  border-radius: 16px;
+}
+
+.floating-card.scholarship-card:hover img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
+    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 .floating-card.ewallet-card {
@@ -321,6 +338,23 @@ section {
   right: 10%;
   width: 240px;
   animation-delay: -2s;
+  cursor: pointer;
+}
+
+.floating-card.ewallet-card:hover {
+  animation-play-state: paused;
+  z-index: 10;
+}
+
+.floating-card.ewallet-card img {
+  transition: all 0.4s ease;
+  border-radius: 16px;
+}
+
+.floating-card.ewallet-card:hover img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
+    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 .floating-card.tips-card {
@@ -328,6 +362,23 @@ section {
   right: 8%;
   width: 250px;
   animation-delay: -4s;
+  cursor: pointer;
+}
+
+.floating-card.tips-card:hover {
+  animation-play-state: paused;
+  z-index: 10;
+}
+
+.floating-card.tips-card img {
+  transition: all 0.4s ease;
+  border-radius: 16px;
+}
+
+.floating-card.tips-card:hover img {
+  transform: scale(1.15);
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
+    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 @keyframes float {
