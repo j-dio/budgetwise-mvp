@@ -25,11 +25,9 @@ body {
     Roboto,
     sans-serif;
   background:
-    radial-gradient(
-      ellipse 800px 900px at 50% 30%,
+    radial-gradient(ellipse 800px 900px at 50% 30%,
       rgba(59, 130, 246, 0.2) 0%,
-      transparent 110%
-    ),
+      transparent 110%),
     #f5f5f5;
   padding: 0;
   min-height: 200vh;
@@ -293,20 +291,24 @@ section {
 
 .floating-card.p250-card:hover {
   animation-play-state: paused;
-  z-index: 10; /* Brings it above other cards */
+  z-index: 10;
+  /* Brings it above other cards */
 }
 
 /* Style the image inside the card */
 .floating-card.p250-card img {
-  transition: all 0.4s ease; /* Smooth transition for all properties */
-  border-radius: 16px; /* Matches the card design */
+  transition: all 0.4s ease;
+  /* Smooth transition for all properties */
+  border-radius: 16px;
+  /* Matches the card design */
 }
 
 /* Hover state for the image - grows and adds glow */
 .floating-card.p250-card:hover img {
-  transform: scale(1.15); /* Makes it 15% bigger */
-  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
-    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3)); /* Blue glow effect */
+  transform: scale(1.15);
+  /* Makes it 15% bigger */
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
+  /* Blue glow effect */
 }
 
 .floating-card.scholarship-card {
@@ -329,8 +331,7 @@ section {
 
 .floating-card.scholarship-card:hover img {
   transform: scale(1.15);
-  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
-    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 .floating-card.ewallet-card {
@@ -353,8 +354,7 @@ section {
 
 .floating-card.ewallet-card:hover img {
   transform: scale(1.15);
-  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
-    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 .floating-card.tips-card {
@@ -377,15 +377,16 @@ section {
 
 .floating-card.tips-card:hover img {
   transform: scale(1.15);
-  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4))
-    drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
+  filter: drop-shadow(0 20px 40px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -430,11 +431,322 @@ section {
   color: #000;
 }
 
+/* ====== BUDGET MODAL / DONUT / LEGEND ====== */
+.budget-modal {
+  max-width: 500px;
+  width: 92%;
+  padding: 22px;
+  border-radius: 14px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.budget-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* New layout: legend below donut */
+.chart-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.legend-below {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* donut */
+.donut-chart {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* chart colors from your JS will override background */
+  background: #e5e7eb;
+
+  /* ✨ Outer shadow for lift */
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.08),    /* main outer shadow */
+    0 2px 6px rgba(0, 0, 0, 0.06);     /* soft near shadow */
+
+  filter: drop-shadow(0 4px 10px rgba(59, 130, 246, 0.15));
+
+  /* Optional: subtle top-light gradient */
+  background-image: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.3), transparent 70%);
+}
+
+.donut-chart .donut-center {
+  position: absolute;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+
+  /* ✨ Inner shadow + lift */
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.06),
+    0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.donut-chart {
+  animation: popIn 0.4s ease;
+}
+
+.donut-chart::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Wrapper holds the shadow */
+.donut-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* ✨ This is where the shadow lives */
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12))
+          drop-shadow(0 2px 6px rgba(59, 130, 246, 0.15));
+}
+
+/* legend container */
+.legend-ctn {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 240px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+/* each legend row */
+.legend-item-flex {
+  flex-direction: row;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.05);
+  transition: all 0.2s ease;
+}
+
+.legend-item-flex:hover {
+  background: rgba(59, 130, 246, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.08);
+}
+
+.legend-item-flex:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.legend-left {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.legend-name {
+  font-size: 13px;
+  color: #1f2937;
+}
+
+.legend-amount {
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* buttons inside legend */
+.edit-btn, .del-btn {
+  margin-left: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.del-btn {
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+.edit-btn {
+  border-color: #bfdbfe;
+  color: #0369a1;
+}
+
+/* Add form */
+.add-cat-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #72adfd, #3b82f6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add-category-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-row input[type="text"], .form-row input[type="number"] {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.colors-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.color-swatch.selected {
+  outline: 3px solid rgba(59, 130, 246, 0.15);
+  transform: scale(1.05);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.save-btn {
+  padding: 8px 12px;
+  background: #1f2937;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  padding: 8px 12px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+}
+
+/* edit-form inside legend when editing a category */
+.edit-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-form input[type="text"], .edit-form input[type="number"] {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+
+/* small screens */
+@media (max-width:640px) {
+  .chart-and-legend {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .legend-ctn {
+    width: 100%;
+  }
+
+  .donut-chart {
+    width: 140px;
+    height: 140px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -627,7 +939,8 @@ section {
 }
 
 .feature-column:first-child .feature-icon img {
-  width: 36px; /* slightly larger */
+  width: 36px;
+  /* slightly larger */
   height: 36px;
 }
 
@@ -659,13 +972,11 @@ section {
   background: linear-gradient(transparent, rgba(255, 255, 255, 0.02));
   border-radius: 0 52px 52px 52px;
   pointer-events: none;
-  mask: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.2) 10%,
-    rgba(0, 0, 0, 0.7) 20%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  mask: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 10%,
+      rgba(0, 0, 0, 0.7) 20%,
+      rgba(0, 0, 0, 1) 100%);
 }
 
 .overview-img-ctn {
@@ -696,20 +1007,21 @@ section {
   background: linear-gradient(transparent, rgba(255, 255, 255, 0.02));
   border-radius: 0 52px 52px 52px;
   pointer-events: none;
-  mask: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.2) 10%,
-    rgba(0, 0, 0, 0.7) 20%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  mask: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.2) 10%,
+      rgba(0, 0, 0, 0.7) 20%,
+      rgba(0, 0, 0, 1) 100%);
 }
 
 .cards-ctn {
   display: flex;
-  flex-direction: column; /* stack top + bottom */
-  max-width: 1300px; /* keeps everything contained */
-  margin: 0 auto; /* center on page */
+  flex-direction: column;
+  /* stack top + bottom */
+  max-width: 1300px;
+  /* keeps everything contained */
+  margin: 0 auto;
+  /* center on page */
   gap: 20px;
 }
 
@@ -733,7 +1045,8 @@ section {
 .tools-section-flex {
   display: flex;
   justify-content: space-between;
-  align-items: stretch; /* make both cards equal height */
+  align-items: stretch;
+  /* make both cards equal height */
   margin-top: 40px;
   gap: 20px;
 }
@@ -792,7 +1105,8 @@ section {
   max-width: 294px;
   width: 100%;
   height: auto;
-  margin-left: auto; /* pushes it to the right side of card */
+  margin-left: auto;
+  /* pushes it to the right side of card */
 }
 
 .tools-card-bottom {
@@ -986,7 +1300,8 @@ section {
 .contact-section-top {
   position: relative;
   background-color: #293f55;
-  padding: 100px 50px; /* This adds the space you need */
+  padding: 100px 50px;
+  /* This adds the space you need */
   text-align: center;
   min-height: 500px;
   overflow: hidden;
@@ -1228,14 +1543,12 @@ section {
   font-weight: bold;
   color: #1f2937;
   text-decoration: none;
-  background: linear-gradient(
-    90deg,
-    #1f2937 0%,
-    #1f2937 40%,
-    #ffffff 50%,
-    #1f2937 60%,
-    #1f2937 100%
-  );
+  background: linear-gradient(90deg,
+      #1f2937 0%,
+      #1f2937 40%,
+      #ffffff 50%,
+      #1f2937 60%,
+      #1f2937 100%);
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;
@@ -1292,7 +1605,8 @@ section {
   }
 
   .floating-card {
-    display: none; /* Hide floating cards on mobile for cleaner look */
+    display: none;
+    /* Hide floating cards on mobile for cleaner look */
   }
 
   .overview {
@@ -1374,6 +1688,7 @@ section {
 /* Tablet breakpoint: adjust divider offset */
 @media (max-width: 1024px) {
   .feature-column:not(:last-child)::after {
-    right: -80px; /* narrower gap for tablets */
+    right: -80px;
+    /* narrower gap for tablets */
   }
 }

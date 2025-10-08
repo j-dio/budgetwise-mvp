@@ -314,15 +314,51 @@
       </div>
     </section>
 
-    <div id="cardModal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn">&times;</span>
-        <h2>Card Details</h2>
-        <p>Some info</p>
-      </div>
-    </div>
+    <div id="cardModal" class="modal" aria-hidden="true">
+      <div class="modal-content budget-modal" role="dialog" aria-modal="true" aria-labelledby="budgetTitle">
+        <span class="close-btn" aria-label="Close modal">&times;</span>
 
-    <script src="script.js"></script>
+        <div class="modal-header">
+          <h2 id="budgetTitle">Budget Preview</h2>
+        </div>
+
+        <div class="budget-body">
+          <div class="chart-section">
+            <div class="donut-wrapper">
+              <div id="donutChart" class="donut-chart">
+                <!-- center amount gets injected by JS -->
+              </div>
+            </div>
+
+
+            <div id="legend" class="legend-ctn legend-below">
+              <!-- legend items (categories) get rendered here by JS -->
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="addCategoryBtn" class="add-cat-btn">+ Add category</button>
+
+            <form id="addCategoryForm" class="add-category-form hidden" onsubmit="return false;">
+              <div class="form-row">
+                <input id="newCatName" type="text" placeholder="Category name" required />
+                <input id="newCatAmount" type="number" step="0.01" placeholder="Amount" required />
+              </div>
+
+              <div class="form-row colors-row" id="addColorPalette">
+                <!-- color swatches injected by JS -->
+              </div>
+
+              <div class="form-actions">
+                <button id="saveNewCategory" class="save-btn" type="button">Save</button>
+                <button id="cancelNewCategory" class="cancel-btn" type="button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
 </body>
 
 </html>
