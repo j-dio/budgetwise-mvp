@@ -156,32 +156,31 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
       dragged = false;
       return;
     }
+
+    const rect = popupImage.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
     if (scale === 1) {
-      scale = 1.5;
+      const targetZoom = 1.5; // adjust as desired
+      const prevScale = scale;
+      scale = targetZoom;
+
+      // Compute relative position before zoom
+      const relX = (clickX - pointX) / prevScale;
+      const relY = (clickY - pointY) / prevScale;
+
+      // Adjust so zoom focuses where clicked
+      pointX = clickX - relX * scale;
+      pointY = clickY - relY * scale;
+
       popupImage.classList.add("zoomed");
       imageContainer.classList.add("zoomed");
     } else {
       resetZoom();
     }
+
     setTransform();
-  });
-
-  // --- Touch support (pinch & pan for mobile) ---
-  let initialDistance = 0;
-  let initialScale = 1;
-
-  popupImage.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 2) {
-      e.preventDefault();
-      initialDistance = getDistance(e.touches[0], e.touches[1]);
-      initialScale = scale;
-    } else if (e.touches.length === 1 && scale > 1) {
-      start = {
-        x: e.touches[0].clientX - pointX,
-        y: e.touches[0].clientY - pointY,
-      };
-      panning = true;
-    }
   });
 
   popupImage.addEventListener("touchmove", (e) => {
