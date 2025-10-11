@@ -1,4 +1,219 @@
 // script.js
+// Image Popup functionality
+const learnMoreBtn = document.getElementById("learnMoreBtn");
+const popup = document.getElementById("imagePopup");
+const closeBtn = document.getElementById("closePopup");
+const popupImage = document.getElementById("popupImage");
+const imageContainer = document.getElementById("imageContainer");
+const zoomInBtn = document.getElementById("zoomIn");
+const zoomOutBtn = document.getElementById("zoomOut");
+const zoomResetBtn = document.getElementById("zoomReset");
+
+const ZOOM_STEP = 0.1;
+const MAX_ZOOM = 3;
+const MIN_ZOOM = 1;
+
+if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
+  let scale = 1;
+  let panning = false;
+  let pointX = 0;
+  let pointY = 0;
+  let start = { x: 0, y: 0 };
+  let dragged = false;
+
+  // --- Helper: Apply transform ---
+  function setTransform() {
+    popupImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+  }
+
+  // --- Helper: Reset zoom ---
+  function resetZoom() {
+    scale = 1;
+    pointX = 0;
+    pointY = 0;
+    setTransform();
+    popupImage.classList.remove("zoomed");
+    imageContainer.classList.remove("zoomed");
+  }
+
+  // --- Popup open/close ---
+  function closePopup() {
+    popup.classList.remove("active");
+    document.body.style.overflow = "auto";
+    resetZoom();
+  }
+
+  learnMoreBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    popup.classList.add("active");
+    document.body.style.overflow = "hidden";
+    resetZoom();
+  });
+
+  closeBtn.addEventListener("click", closePopup);
+
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) closePopup();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && popup.classList.contains("active")) closePopup();
+  });
+
+  // --- Scroll wheel zoom toward cursor ---
+  imageContainer.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    const zoomIntensity = 0.1; // smaller = smoother
+    const rect = popupImage.getBoundingClientRect();
+
+    // Mouse position relative to image
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Convert mouse position to image coordinates before zoom
+    const xRel = (mouseX - pointX) / scale;
+    const yRel = (mouseY - pointY) / scale;
+
+    // Apply zoom in or out
+    if (e.deltaY < 0) scale += zoomIntensity;
+    else scale -= zoomIntensity;
+
+    if (scale < MIN_ZOOM) scale = MIN_ZOOM;
+    if (scale > MAX_ZOOM) scale = MAX_ZOOM;
+
+    // Recalculate translation so zoom centers around cursor
+    pointX = e.clientX - rect.left - xRel * scale;
+    pointY = e.clientY - rect.top - yRel * scale;
+
+    // Activate zoom classes
+    if (scale > 1) {
+      popupImage.classList.add("zoomed");
+      imageContainer.classList.add("zoomed");
+    } else {
+      resetZoom();
+    }
+
+    setTransform();
+  });
+
+  // --- Zoom buttons (optional) ---
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      scale += ZOOM_STEP;
+      if (scale > MAX_ZOOM) scale = MAX_ZOOM;
+      popupImage.classList.add("zoomed");
+      imageContainer.classList.add("zoomed");
+      setTransform();
+    });
+  }
+
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      scale -= ZOOM_STEP;
+      if (scale < MIN_ZOOM) resetZoom();
+      else setTransform();
+    });
+  }
+
+  if (zoomResetBtn) {
+    zoomResetBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      resetZoom();
+    });
+  }
+
+  // --- Panning (persistent drag) ---
+  popupImage.addEventListener("mousedown", (e) => {
+    if (scale > 1) {
+      e.preventDefault();
+      start = { x: e.clientX - pointX, y: e.clientY - pointY };
+      panning = true;
+      dragged = false;
+      imageContainer.style.cursor = "grabbing";
+    }
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!panning) return;
+    e.preventDefault();
+    dragged = true;
+    pointX = e.clientX - start.x;
+    pointY = e.clientY - start.y;
+    setTransform();
+  });
+
+  window.addEventListener("mouseup", () => {
+    panning = false;
+    imageContainer.style.cursor = "grab";
+  });
+
+  // --- Click to zoom toggle (only if not dragged) ---
+  popupImage.addEventListener("click", (e) => {
+    if (dragged) {
+      dragged = false;
+      return;
+    }
+    if (scale === 1) {
+      scale = 1.5;
+      popupImage.classList.add("zoomed");
+      imageContainer.classList.add("zoomed");
+    } else {
+      resetZoom();
+    }
+    setTransform();
+  });
+
+  // --- Touch support (pinch & pan for mobile) ---
+  let initialDistance = 0;
+  let initialScale = 1;
+
+  popupImage.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      initialDistance = getDistance(e.touches[0], e.touches[1]);
+      initialScale = scale;
+    } else if (e.touches.length === 1 && scale > 1) {
+      start = {
+        x: e.touches[0].clientX - pointX,
+        y: e.touches[0].clientY - pointY,
+      };
+      panning = true;
+    }
+  });
+
+  popupImage.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const currentDistance = getDistance(e.touches[0], e.touches[1]);
+      scale = initialScale * (currentDistance / initialDistance);
+      if (scale < MIN_ZOOM) scale = MIN_ZOOM;
+      if (scale > MAX_ZOOM) scale = MAX_ZOOM;
+      popupImage.classList.add("zoomed");
+      imageContainer.classList.add("zoomed");
+      setTransform();
+    } else if (e.touches.length === 1 && panning) {
+      e.preventDefault();
+      pointX = e.touches[0].clientX - start.x;
+      pointY = e.touches[0].clientY - start.y;
+      setTransform();
+    }
+  });
+
+  popupImage.addEventListener("touchend", () => {
+    panning = false;
+    imageContainer.style.cursor = "grab";
+  });
+
+  function getDistance(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("cardModal");
   const closeBtn = modal.querySelector(".close-btn");
@@ -100,7 +315,9 @@ document.addEventListener("DOMContentLoaded", () => {
       addColorPalette.appendChild(btn);
 
       btn.addEventListener("click", () => {
-        addColorPalette.querySelectorAll(".color-swatch").forEach((b) => b.classList.remove("selected"));
+        addColorPalette
+          .querySelectorAll(".color-swatch")
+          .forEach((b) => b.classList.remove("selected"));
         btn.classList.add("selected");
       });
     });
@@ -154,15 +371,19 @@ document.addEventListener("DOMContentLoaded", () => {
       editColors.appendChild(cbtn);
 
       cbtn.addEventListener("click", () => {
-        editColors.querySelectorAll(".color-swatch").forEach((b) => b.classList.remove("selected"));
+        editColors
+          .querySelectorAll(".color-swatch")
+          .forEach((b) => b.classList.remove("selected"));
         cbtn.classList.add("selected");
       });
     });
 
     // wire save/cancel
     container.querySelector(".save-edit").addEventListener("click", () => {
-      const newName = container.querySelector(".edit-name").value.trim() || cat.name;
-      const newAmt = parseFloat(container.querySelector(".edit-amount").value) || 0;
+      const newName =
+        container.querySelector(".edit-name").value.trim() || cat.name;
+      const newAmt =
+        parseFloat(container.querySelector(".edit-amount").value) || 0;
       const sel = editColors.querySelector(".color-swatch.selected");
       const newColor = sel ? sel.dataset.color : cat.color;
       if (newAmt <= 0) {
@@ -172,12 +393,24 @@ document.addEventListener("DOMContentLoaded", () => {
       categories[index] = { name: newName, amount: newAmt, color: newColor };
       renderAll();
     });
-    container.querySelector(".cancel-edit").addEventListener("click", () => renderAll());
+    container
+      .querySelector(".cancel-edit")
+      .addEventListener("click", () => renderAll());
   }
 
   // Safe helper to escape text (very minimal)
   function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    return String(str).replace(
+      /[&<>"']/g,
+      (m) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[m]
+    );
   }
 
   // Render everything and attach listeners
@@ -232,17 +465,16 @@ document.addEventListener("DOMContentLoaded", () => {
   populateAddColors();
   renderAll();
 
-// Only attach modal to the ₱250 card
-const p250Card = document.querySelector(".floating-card.p250-card");
+  // Only attach modal to the ₱250 card
+  const p250Card = document.querySelector(".floating-card.p250-card");
 
-if (p250Card) {
-  p250Card.addEventListener("click", () => {
-    modal.style.display = "flex";
-    modal.setAttribute("aria-hidden", "false");
-    renderAll();
-  });
-}
-
+  if (p250Card) {
+    p250Card.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+      renderAll();
+    });
+  }
 
   // close modal logic
   closeBtn.addEventListener("click", () => {

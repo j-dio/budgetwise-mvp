@@ -50,7 +50,7 @@
 
       <div class="hero-buttons">
         <a href="#" class="try-now-button">Try now</a>
-        <a href="#" class="watch-demo-button">
+        <a href="assets/BudgetWise_Tarp.png" class="watch-demo-button" id="learnMoreBtn">
           <div class="learn-icon">i</div>
           Learn more
         </a>
@@ -317,6 +317,26 @@
         </div>
       </div>
     </section>
+
+    <!-- Image Popup Modal -->
+    <div class="popup-modal" id="imagePopup">
+      <div class="popup-content">
+        <button class="popup-close" id="closePopup">&times;</button>
+
+        <!-- Image Container -->
+        <div class="popup-body" id="imageContainer">
+          <img src="assets/BudgetWise_Tarp.png" alt="BudgetWise Info" class="popup-image" id="popupImage">
+        </div>
+
+        <!-- Zoom Controls (INSIDE the popup) -->
+        <div class="zoom-controls" id="zoomControls">
+          <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+          <button class="zoom-btn" id="zoomOut" title="Zoom Out">−</button>
+          <button class="zoom-btn" id="zoomReset" title="Reset Zoom">⟲</button>
+        </div>
+      </div>
+    </div>
+
 
     <div id="cardModal" class="modal" aria-hidden="true">
       <div class="modal-content budget-modal" role="dialog" aria-modal="true" aria-labelledby="budgetTitle">
