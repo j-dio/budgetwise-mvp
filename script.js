@@ -64,29 +64,29 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
   imageContainer.addEventListener("wheel", (e) => {
     e.preventDefault();
 
-    const zoomIntensity = 0.1; // smaller = smoother
+    const zoomIntensity = 0.05; // smaller = smoother
     const rect = popupImage.getBoundingClientRect();
 
     // Mouse position relative to image
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    // Convert mouse position to image coordinates before zoom
-    const xRel = (mouseX - pointX) / scale;
-    const yRel = (mouseY - pointY) / scale;
+    // Relative coordinates before scaling
+    const prevX = (mouseX - pointX) / scale;
+    const prevY = (mouseY - pointY) / scale;
 
-    // Apply zoom in or out
-    if (e.deltaY < 0) scale += zoomIntensity;
-    else scale -= zoomIntensity;
+    // Apply zoom
+    if (e.deltaY < 0)
+      scale *= 1 + zoomIntensity; // zoom in
+    else scale /= 1 + zoomIntensity; // zoom out
 
     if (scale < MIN_ZOOM) scale = MIN_ZOOM;
     if (scale > MAX_ZOOM) scale = MAX_ZOOM;
 
-    // Recalculate translation so zoom centers around cursor
-    pointX = e.clientX - rect.left - xRel * scale;
-    pointY = e.clientY - rect.top - yRel * scale;
+    // Keep zoom centered on mouse position
+    pointX = mouseX - prevX * scale;
+    pointY = mouseY - prevY * scale;
 
-    // Activate zoom classes
     if (scale > 1) {
       popupImage.classList.add("zoomed");
       imageContainer.classList.add("zoomed");
