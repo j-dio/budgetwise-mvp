@@ -291,8 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="legend-right">
           <span class="legend-amount">${formatCurrency(c.amount)}</span>
-          <button class="edit-btn" data-idx="${i}" aria-label="Edit">Edit</button>
-          <button class="del-btn" data-idx="${i}" aria-label="Delete">Delete</button>
+          <button class="edit-btn" data-idx="${i}" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+          <button class="del-btn" data-idx="${i}" aria-label="Delete"><i class="fa-solid fa-trash"></i></button>
         </div>
       `;
 
