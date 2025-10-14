@@ -678,8 +678,8 @@ section {
 
 .donut-chart .donut-center {
   position: absolute;
-  width: 86px;
-  height: 86px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background: white;
   display: flex;
