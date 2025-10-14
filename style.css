@@ -606,7 +606,7 @@ section {
 
 /* ====== BUDGET MODAL / DONUT / LEGEND ====== */
 .budget-modal {
-  max-width: 500px;
+  max-width: 460px;
   width: 92%;
   padding: 22px;
   border-radius: 14px;
