@@ -255,8 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
       totalBudgetEl.textContent = formatCurrency(total);
     }
 
-    // Center number (we also keep it for accessibility)
-    const centerHtml = `<div class="donut-center">${formatCurrency(total)}</div>`;
+    const centerHtml = `<div class="donut-center"></div>`;
 
     if (total <= 0) {
       donutEl.style.background = "#e5e7eb";
