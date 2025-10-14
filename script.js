@@ -321,20 +321,20 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       // reset to auto to measure correctly
       details.style.maxHeight = "none";
-      const fullHeight = details.scrollHeight + "px";
-      details.style.maxHeight = "0";
-      details.offsetHeight; // reflow
-
-      // now animate smoothly to actual height
-      details.style.maxHeight = fullHeight;
+      details.style.maxHeight = details.scrollHeight + "px";
       item.classList.add("active");
 
+      // wait until next frame *after* transition paints
       details.addEventListener(
         "transitionend",
         () => {
           if (item.classList.contains("active")) {
-            // snap precisely to final computed height to avoid bounce
-            details.style.maxHeight = details.scrollHeight + "px";
+            requestAnimationFrame(() => {
+              // tiny timeout ensures all inner layout settled
+              setTimeout(() => {
+                details.style.maxHeight = "none";
+              }, 20);
+            });
           }
         },
         { once: true }
