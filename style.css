@@ -731,11 +731,13 @@ section {
 }
 
 .total-budget-display {
-  font-weight: 700;
-  font-size: 16px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 550;
+  font-size: 30px;
   color: #1f2937;
   margin-bottom: 10px;
   text-align: center;
+  letter-spacing: -0.05em;
 }
 
 /* legend container */
