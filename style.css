@@ -825,19 +825,22 @@ section {
 
 .legend-details {
   display: flex;
-  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
   margin-top: 6px;
   padding-left: 22px;
+  padding-bottom: 1px;
 
-  /* smooth slide effect */
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
   opacity: 0;
+
+  /* smoother motion */
+  transition:
+    max-height 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+    opacity 0.35s ease;
 }
 
 .legend-item-flex.active .legend-details {

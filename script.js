@@ -301,7 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Toggle details visibility when clicking a legend item
   // Smooth expand/collapse animation for category details
   document.addEventListener("click", (e) => {
     const item = e.target.closest(".legend-item-flex");
@@ -314,30 +313,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (isOpen) {
       // collapse
-      details.style.maxHeight = details.scrollHeight + "px"; // set current height
-      requestAnimationFrame(() => {
-        details.style.maxHeight = "0";
-      });
+      const currentHeight = details.scrollHeight;
+      details.style.maxHeight = currentHeight + "px";
+      details.offsetHeight; // force reflow
+      details.style.maxHeight = "0";
       item.classList.remove("active");
     } else {
-      // expand
-      details.style.display = "flex";
-      details.style.maxHeight = details.scrollHeight + "px";
+      // reset to auto to measure correctly
+      details.style.maxHeight = "none";
+      const fullHeight = details.scrollHeight + "px";
+      details.style.maxHeight = "0";
+      details.offsetHeight; // reflow
+
+      // now animate smoothly to actual height
+      details.style.maxHeight = fullHeight;
       item.classList.add("active");
 
-      // after animation ends, reset maxHeight so it can grow dynamically
       details.addEventListener(
         "transitionend",
         () => {
           if (item.classList.contains("active")) {
-            details.style.maxHeight = "none";
+            // snap precisely to final computed height to avoid bounce
+            details.style.maxHeight = details.scrollHeight + "px";
           }
         },
         { once: true }
       );
     }
   });
-  
+
   // Setup add-form color swatches
   function populateAddColors() {
     addColorPalette.innerHTML = "";
