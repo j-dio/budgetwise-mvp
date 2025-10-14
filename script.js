@@ -284,22 +284,60 @@ document.addEventListener("DOMContentLoaded", () => {
       row.dataset.index = i;
 
       // markup: left color + name, right amount + edit/delete
-      row.innerHTML = `
-        <div class="legend-left" title="Click name to edit">
-          <span class="legend-color" style="background:${c.color}"></span>
-          <span class="legend-name">${escapeHtml(c.name)}</span>
-        </div>
-        <div class="legend-right">
-          <span class="legend-amount">${formatCurrency(c.amount)}</span>
-          <button class="edit-btn" data-idx="${i}" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
-          <button class="del-btn" data-idx="${i}" aria-label="Delete"><i class="fa-solid fa-trash"></i></button>
-        </div>
-      `;
+    row.innerHTML = `
+      <div class="legend-left">
+        <span class="legend-color" style="background:${c.color}"></span>
+        <span class="legend-name">${escapeHtml(c.name)}</span>
+      </div>
+
+      <div class="legend-details">
+        <span class="legend-amount">${formatCurrency(c.amount)}</span>
+        <button class="edit-btn" data-idx="${i}" aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
+        <button class="del-btn" data-idx="${i}" aria-label="Delete"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    `;
 
       legendEl.appendChild(row);
     });
   }
 
+  // Toggle details visibility when clicking a legend item
+  // Smooth expand/collapse animation for category details
+  document.addEventListener("click", (e) => {
+    const item = e.target.closest(".legend-item-flex");
+    if (!item || !legendEl.contains(item)) return;
+
+    const details = item.querySelector(".legend-details");
+    if (!details) return;
+
+    const isOpen = item.classList.contains("active");
+
+    if (isOpen) {
+      // collapse
+      details.style.maxHeight = details.scrollHeight + "px"; // set current height
+      requestAnimationFrame(() => {
+        details.style.maxHeight = "0";
+      });
+      item.classList.remove("active");
+    } else {
+      // expand
+      details.style.display = "flex";
+      details.style.maxHeight = details.scrollHeight + "px";
+      item.classList.add("active");
+
+      // after animation ends, reset maxHeight so it can grow dynamically
+      details.addEventListener(
+        "transitionend",
+        () => {
+          if (item.classList.contains("active")) {
+            details.style.maxHeight = "none";
+          }
+        },
+        { once: true }
+      );
+    }
+  });
+  
   // Setup add-form color swatches
   function populateAddColors() {
     addColorPalette.innerHTML = "";
