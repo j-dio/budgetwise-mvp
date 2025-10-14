@@ -768,6 +768,7 @@ section {
   display: flex;
   gap: 6px;
   align-items: center;
+  padding-top: 4px;
 }
 
 .legend-color {
@@ -780,8 +781,9 @@ section {
 }
 
 .legend-name {
-  font-size: 13px;
-  color: #1f2937;
+  font-size: 17.5px;
+  color: #9B9B9B;
+  padding-top: 2px;
 }
 
 .legend-amount {
