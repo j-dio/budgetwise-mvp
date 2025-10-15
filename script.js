@@ -694,4 +694,16 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.setAttribute("aria-hidden", "true");
     }
   });
+
+  // Add keyboard shortcuts for power users
+  document.addEventListener('keydown', (e) => {
+    if (modal.style.display !== 'flex') return;
+    
+    // Cmd/Ctrl + S = Save (when editing)
+    if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+      e.preventDefault();
+      const saveBtn = document.querySelector('.save-edit, .save-btn');
+      if (saveBtn) saveBtn.click();
+    }
+  });
 });
