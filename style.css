@@ -730,6 +730,67 @@ section {
   letter-spacing: -0.05em;
 }
 
+/* Add to style.css */
+
+/* Pulsing hint on first hover */
+.floating-card.p250-card::after {
+  content: 'Click to try';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(59, 130, 246, 0.95);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.floating-card.p250-card:hover::after {
+  opacity: 1;
+}
+
+/* Smooth category add animation */
+.legend-item-flex {
+  animation: slideInFromLeft 0.3s ease;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Better empty state */
+.legend-ctn:empty::before {
+  content: 'Add your first category to start tracking!';
+  display: block;
+  text-align: center;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+#cardModal {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#cardModal.modal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* legend container */
 .legend-ctn.legend-below {
   display: grid;

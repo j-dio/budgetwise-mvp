@@ -562,21 +562,51 @@ document.addEventListener("DOMContentLoaded", () => {
   populateAddColors();
   renderSafe();
 
-  // Only attach modal to the ₱250 card
+// Modal Opening and Closing Animation
   const p250Card = document.querySelector(".floating-card.p250-card");
 
   if (p250Card) {
     p250Card.addEventListener("click", () => {
+      // Add smooth transition
       modal.style.display = "flex";
       modal.setAttribute("aria-hidden", "false");
+
+      // Prevent body scroll
+      document.body.style.overflow = "hidden";
+
+      // Add entrance animation (fade/slide in)
+      requestAnimationFrame(() => {
+        modal.classList.add("modal-active");
+      });
+
       renderSafe();
+
+      // Focus management for accessibility
+      const firstInput = modal.querySelector("input, button");
+      if (firstInput) firstInput.focus();
     });
   }
 
-  // close modal logic
-  closeBtn.addEventListener("click", () => {
-    modal.style.display = "none";
-    modal.setAttribute("aria-hidden", "true");
+  // --- Smooth modal close ---
+  function closeModal() {
+    modal.classList.remove("modal-active");
+    setTimeout(() => {
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "auto";
+    }, 300); // matches your CSS transition duration
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("modal-active")) {
+      closeModal();
+    }
   });
 
   modal.addEventListener("click", (event) => {
