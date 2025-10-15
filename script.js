@@ -249,11 +249,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Render donut based on categories
+  // Show visual feedback when budget changes
   function renderDonut() {
     const total = calculateTotal();
+    const previousTotal = donutEl.dataset.previousTotal || total;
+
     if (totalBudgetEl) {
-      totalBudgetEl.textContent = formatCurrency(total);
+      // Animate number change
+      animateValue(totalBudgetEl, parseFloat(previousTotal), total, 500);
     }
+
+    donutEl.dataset.previousTotal = total;
 
     const centerHtml = `<div class="donut-center"></div>`;
 
@@ -274,6 +280,24 @@ document.addEventListener("DOMContentLoaded", () => {
     donutEl.style.background = `conic-gradient(${stops.join(", ")})`;
     donutEl.innerHTML = centerHtml;
   }
+
+  // Smoothly animates number changes in budget
+  function animateValue(element, start, end, duration) {
+    const startTime = performance.now();
+
+    function step(currentTime) {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const eased = progress < 0.5
+        ? 2 * progress * progress
+        : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
+      const current = start + (end - start) * eased;
+      element.textContent = formatCurrency(current);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
 
   // Render legend (editable rows)
   function renderLegend() {
