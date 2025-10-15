@@ -398,18 +398,65 @@ document.addEventListener("DOMContentLoaded", () => {
     const sw = addColorPalette.querySelector(".color-swatch.selected");
     const color = sw ? sw.dataset.color : colorPalette[0];
 
-    if (!name || isNaN(amount) || amount <= 0) {
-      alert("Please enter a valid category name and amount (> 0).");
+    // Clear previous errors
+    newNameInput.classList.remove('error', 'success');
+    newAmountInput.classList.remove('error', 'success');
+
+    // Validation with visual feedback
+    if (!name) {
+      newNameInput.classList.add('error');
+      newNameInput.focus();
+      showToast('Please enter a category name', 'error');
+      return;
+    }
+    
+    // Check for duplicates
+    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+      newNameInput.classList.add('error');
+      showToast('Category already exists', 'error');
       return;
     }
 
+    if (isNaN(amount) || amount <= 0) {
+      newAmountInput.classList.add('error');
+      newAmountInput.focus();
+      showToast('Amount must be greater than 0', 'error');
+      return;
+    }
+
+    // Success animation
+    newNameInput.classList.add('success');
+    newAmountInput.classList.add('success');
+    
     categories.push({ name, amount, color });
-    newNameInput.value = "";
-    newAmountInput.value = "";
-    addForm.classList.add("hidden");
-    renderSafe();
+    
+    // Show success feedback
+    showToast(`${name} added successfully!`, 'success');
+    
+    // Reset form
+    setTimeout(() => {
+      newNameInput.value = "";
+      newAmountInput.value = "";
+      newNameInput.classList.remove('success');
+      newAmountInput.classList.remove('success');
+      addForm.classList.add("hidden");
+      renderSafe();
+    }, 300);
   }
 
+  // Toast notification system
+  function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
 
   // Floating color picker (like Notion label picker)
   function openColorPicker(anchorEl, index) {
