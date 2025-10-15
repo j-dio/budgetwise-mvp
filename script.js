@@ -302,43 +302,47 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Smooth expand/collapse animation for category details
+  // Handle clicks on legend items and color circles separately
   document.addEventListener("click", (e) => {
+    const colorCircle = e.target.closest(".legend-color");
     const item = e.target.closest(".legend-item-flex");
-    if (!item || !legendEl.contains(item)) return;
 
-    const details = item.querySelector(".legend-details");
-    if (!details) return;
+    // ✅ CASE 1: Clicked on color circle → open color picker
+    if (colorCircle) {
+      e.stopPropagation(); // prevent triggering slide-down
+      const index = Number(item.dataset.index);
+      openColorPicker(colorCircle, index);
+      return;
+    }
 
-    const isOpen = item.classList.contains("active");
+    // ✅ CASE 2: Clicked inside a legend item (not color) → toggle details
+    if (item && !e.target.closest(".edit-btn") && !e.target.closest(".del-btn")) {
+      const details = item.querySelector(".legend-details");
+      if (!details) return;
 
-    if (isOpen) {
-      // collapse
-      const currentHeight = details.scrollHeight;
-      details.style.maxHeight = currentHeight + "px";
-      details.offsetHeight; // force reflow
-      details.style.maxHeight = "0";
-      item.classList.remove("active");
-    } else {
-      // reset to auto to measure correctly
-      details.style.maxHeight = "none";
-      details.style.maxHeight = details.scrollHeight + "px";
-      item.classList.add("active");
+      const isOpen = item.classList.contains("active");
 
-      // wait until next frame *after* transition paints
-      details.addEventListener(
-        "transitionend",
-        () => {
-          if (item.classList.contains("active")) {
-            requestAnimationFrame(() => {
-              // tiny timeout ensures all inner layout settled
-              setTimeout(() => {
-                details.style.maxHeight = "none";
-              }, 20);
-            });
-          }
-        },
-        { once: true }
-      );
+      if (isOpen) {
+        const currentHeight = details.scrollHeight;
+        details.style.maxHeight = currentHeight + "px";
+        details.offsetHeight; // force reflow
+        details.style.maxHeight = "0";
+        item.classList.remove("active");
+      } else {
+        details.style.maxHeight = details.scrollHeight + "px";
+        item.classList.add("active");
+
+        // 🔥 after animation ends, set to auto so it won't cut
+        details.addEventListener(
+          "transitionend",
+          () => {
+            if (item.classList.contains("active")) {
+              details.style.maxHeight = "none";
+            }
+          },
+          { once: true }
+        );
+      }
     }
   });
 
@@ -379,7 +383,52 @@ document.addEventListener("DOMContentLoaded", () => {
     newNameInput.value = "";
     newAmountInput.value = "";
     addForm.classList.add("hidden");
-    renderAll();
+    renderSafe();
+  }
+
+
+  // Floating color picker (like Notion label picker)
+  function openColorPicker(anchorEl, index) {
+    // Close existing picker if open
+    const existing = document.querySelector(".color-picker-popup");
+    if (existing) existing.remove();
+
+    const picker = document.createElement("div");
+    picker.className = "color-picker-popup";
+
+    colorPalette.forEach((col) => {
+      const swatch = document.createElement("button");
+      swatch.className = "color-swatch";
+      swatch.style.background = col;
+      if (col === categories[index].color) swatch.classList.add("selected");
+      picker.appendChild(swatch);
+
+      swatch.addEventListener("click", () => {
+        categories[index].color = col;
+        renderSafe();
+        picker.remove();
+      });
+    });
+
+    // Position near clicked circle
+    const rect = anchorEl.getBoundingClientRect();
+    picker.style.position = "absolute";
+    picker.style.left = `${rect.left + window.scrollX}px`;
+    picker.style.top = `${rect.bottom + window.scrollY + 6}px`;
+    picker.style.zIndex = 9999;
+
+    document.body.appendChild(picker);
+
+    requestAnimationFrame(() => picker.classList.add("show"));
+
+    // Close picker when clicking outside
+    const closePicker = (e) => {
+      if (!picker.contains(e.target)) {
+        picker.remove();
+        document.removeEventListener("click", closePicker);
+      }
+    };
+    setTimeout(() => document.addEventListener("click", closePicker), 10);
   }
 
   // Edit a category inline
@@ -388,55 +437,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const cat = categories[index];
 
     container.innerHTML = `
-      <div class="edit-form">
-        <input class="edit-name" type="text" value="${escapeHtml(cat.name)}" />
-        <input class="edit-amount" type="number" step="0.01" value="${Number(cat.amount).toFixed(2)}" style="width:110px" />
+      <div class="legend-left">
+        <span class="legend-color" style="background:${cat.color}"></span>
+        <input 
+          type="text" 
+          class="edit-name" 
+          value="${escapeHtml(cat.name)}"
+          placeholder="Category name"
+        />
       </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-left:auto">
-        <div class="edit-colors"></div>
-        <button class="save-edit" data-idx="${index}">Save</button>
-        <button class="cancel-edit" data-idx="${index}">Cancel</button>
+
+      <div class="legend-details active legend-editing">
+        <input 
+          type="number" 
+          step="0.01" 
+          class="edit-amount"
+          value="${Number(cat.amount).toFixed(2)}"
+          placeholder="Amount"
+        />
+        <div class="edit-actions">
+          <button class="save-edit" data-idx="${index}" aria-label="Save">
+            <i class="fa-solid fa-check"></i>
+          </button>
+          <button class="cancel-edit" data-idx="${index}" aria-label="Cancel">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
       </div>
     `;
 
-    // add color options for this edit row
-    const editColors = container.querySelector(".edit-colors");
-    colorPalette.forEach((col) => {
-      const cbtn = document.createElement("button");
-      cbtn.type = "button";
-      cbtn.className = "color-swatch";
-      cbtn.style.background = col;
-      cbtn.dataset.color = col;
-      if (col === cat.color) cbtn.classList.add("selected");
-      editColors.appendChild(cbtn);
+    const nameInput = container.querySelector(".edit-name");
+    nameInput.focus();
+    nameInput.select();
 
-      cbtn.addEventListener("click", () => {
-        editColors
-          .querySelectorAll(".color-swatch")
-          .forEach((b) => b.classList.remove("selected"));
-        cbtn.classList.add("selected");
-      });
-    });
-
-    // wire save/cancel
     container.querySelector(".save-edit").addEventListener("click", () => {
-      const newName =
-        container.querySelector(".edit-name").value.trim() || cat.name;
-      const newAmt =
-        parseFloat(container.querySelector(".edit-amount").value) || 0;
-      const sel = editColors.querySelector(".color-swatch.selected");
-      const newColor = sel ? sel.dataset.color : cat.color;
+      const newName = nameInput.value.trim() || cat.name;
+      const newAmt = parseFloat(container.querySelector(".edit-amount").value) || cat.amount;
+
       if (newAmt <= 0) {
-        alert("Amount must be > 0");
+        alert("Amount must be greater than 0");
         return;
       }
-      categories[index] = { name: newName, amount: newAmt, color: newColor };
-      renderAll();
+
+      categories[index] = { ...cat, name: newName, amount: newAmt };
+      renderSafe();
     });
-    container
-      .querySelector(".cancel-edit")
-      .addEventListener("click", () => renderAll());
+
+    container.querySelector(".cancel-edit").addEventListener("click", () => renderSafe());
   }
+
 
   // Safe helper to escape text (very minimal)
   function escapeHtml(str) {
@@ -454,10 +503,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Render everything and attach listeners
-  function renderAll() {
+  function renderSafe() {
     renderDonut();
     renderLegend();
     attachLegendListeners();
+  }
+
+  function safeRender() {
+    legendEl.classList.add("rendering");
+    requestAnimationFrame(() => {
+      renderAll();
+      setTimeout(() => legendEl.classList.remove("rendering"), 150);
+    });
   }
 
   function attachLegendListeners() {
@@ -467,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const idx = Number(btn.dataset.idx);
         if (!Number.isNaN(idx)) {
           categories.splice(idx, 1);
-          renderAll();
+          renderSafe();
         }
       });
     });
@@ -503,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // prepare color palette & initial render
   populateAddColors();
-  renderAll();
+  renderSafe();
 
   // Only attach modal to the ₱250 card
   const p250Card = document.querySelector(".floating-card.p250-card");
@@ -512,7 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
     p250Card.addEventListener("click", () => {
       modal.style.display = "flex";
       modal.setAttribute("aria-hidden", "false");
-      renderAll();
+      renderSafe();
     });
   }
 

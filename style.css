@@ -801,6 +801,7 @@ section {
   background: white;
   font-size: 12px;
   cursor: pointer;
+  
 }
 
 .del-btn {
@@ -833,27 +834,112 @@ section {
   gap: 8px;
   margin-top: 6px;
   padding-left: 22px;
-  padding-bottom: 1px;
+  padding-bottom: 0;
 
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  will-change: max-height, opacity;
+  transform: translateY(-4px);
 
-  /* smoother motion */
   transition:
     max-height 0.45s cubic-bezier(0.33, 1, 0.68, 1),
-    opacity 0.35s ease;
+    opacity 0.35s ease,
 }
 
 .legend-item-flex.active .legend-details {
   opacity: 1;
+  transform: translateY(0);
+  padding-bottom: 4px;
   transition-delay: 0.05s;
 }
 
 .legend-details * {
   backface-visibility: hidden;
   transform: translateZ(0);
+}
+
+.legend-item-flex input[type="text"],
+.legend-item-flex input[type="number"] {
+  outline: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.legend-item-flex input[type="text"]:focus,
+.legend-item-flex input[type="number"]:focus {
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.legend-editing {
+  opacity: 1;
+  max-height: none;
+  transform: translateY(0);
+  padding-bottom: 4px;
+  background: rgba(59, 130, 246, 0.05);
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: background 0.3s ease;
+}
+
+.legend-editing:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.edit-name,
+.edit-amount {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.edit-name:focus,
+.edit-amount:focus {
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.edit-actions button {
+  background: #f3f4f6;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.edit-actions .save-edit {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.edit-actions .save-edit:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.edit-actions .cancel-edit {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.edit-actions .cancel-edit:hover {
+  background: rgba(239, 68, 68, 0.2);
 }
 
 @keyframes slideDown {
@@ -923,6 +1009,56 @@ section {
 .color-swatch.selected {
   outline: 3px solid rgba(59, 130, 246, 0.15);
   transform: scale(1.05);
+}
+
+.color-picker-popup {
+  display: flex;
+  gap: 6px;
+  background: #fff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.2s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.color-picker-popup.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#legend {
+  transition: opacity 0.15s ease;
+}
+
+#legend.rendering {
+  opacity: 0.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.color-picker-popup .color-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.color-picker-popup .color-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.color-picker-popup .color-swatch.selected {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
 }
 
 .form-actions {
