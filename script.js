@@ -287,9 +287,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function step(currentTime) {
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const eased = progress < 0.5
-        ? 2 * progress * progress
-        : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
+      const eased =
+        progress < 0.5
+          ? 2 * progress * progress
+          : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
       const current = start + (end - start) * eased;
       element.textContent = formatCurrency(current);
       if (progress < 1) requestAnimationFrame(step);
@@ -297,7 +298,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     requestAnimationFrame(step);
   }
-
 
   // Render legend (editable rows)
   function renderLegend() {
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
       row.dataset.index = i;
 
       // markup: left color + name, right amount + edit/delete
-    row.innerHTML = `
+      row.innerHTML = `
       <div class="legend-left">
         <span class="legend-color" style="background:${c.color}"></span>
         <span class="legend-name">${escapeHtml(c.name)}</span>
@@ -340,7 +340,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ✅ CASE 2: Clicked inside a legend item (not color) → toggle details
-    if (item && !e.target.closest(".edit-btn") && !e.target.closest(".del-btn")) {
+    if (
+      item &&
+      !e.target.closest(".edit-btn") &&
+      !e.target.closest(".del-btn")
+    ) {
       const details = item.querySelector(".legend-details");
       if (!details) return;
 
@@ -399,61 +403,61 @@ document.addEventListener("DOMContentLoaded", () => {
     const color = sw ? sw.dataset.color : colorPalette[0];
 
     // Clear previous errors
-    newNameInput.classList.remove('error', 'success');
-    newAmountInput.classList.remove('error', 'success');
+    newNameInput.classList.remove("error", "success");
+    newAmountInput.classList.remove("error", "success");
 
     // Validation with visual feedback
     if (!name) {
-      newNameInput.classList.add('error');
+      newNameInput.classList.add("error");
       newNameInput.focus();
-      showToast('Please enter a category name', 'error');
+      showToast("Please enter a category name", "error");
       return;
     }
-    
+
     // Check for duplicates
-    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
-      newNameInput.classList.add('error');
-      showToast('Category already exists', 'error');
+    if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      newNameInput.classList.add("error");
+      showToast("Category already exists", "error");
       return;
     }
 
     if (isNaN(amount) || amount <= 0) {
-      newAmountInput.classList.add('error');
+      newAmountInput.classList.add("error");
       newAmountInput.focus();
-      showToast('Amount must be greater than 0', 'error');
+      showToast("Amount must be greater than 0", "error");
       return;
     }
 
     // Success animation
-    newNameInput.classList.add('success');
-    newAmountInput.classList.add('success');
-    
+    newNameInput.classList.add("success");
+    newAmountInput.classList.add("success");
+
     categories.push({ name, amount, color });
-    
+
     // Show success feedback
-    showToast(`${name} added successfully!`, 'success');
-    
+    showToast(`${name} added successfully!`, "success");
+
     // Reset form
     setTimeout(() => {
       newNameInput.value = "";
       newAmountInput.value = "";
-      newNameInput.classList.remove('success');
-      newAmountInput.classList.remove('success');
+      newNameInput.classList.remove("success");
+      newAmountInput.classList.remove("success");
       addForm.classList.add("hidden");
       renderSafe();
     }, 300);
   }
 
   // Toast notification system
-  function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
+  function showToast(message, type = "info") {
+    const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
     document.body.appendChild(toast);
-    
-    setTimeout(() => toast.classList.add('show'), 10);
+
+    setTimeout(() => toast.classList.add("show"), 10);
     setTimeout(() => {
-      toast.classList.remove('show');
+      toast.classList.remove("show");
       setTimeout(() => toast.remove(), 300);
     }, 3000);
   }
@@ -543,7 +547,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     container.querySelector(".save-edit").addEventListener("click", () => {
       const newName = nameInput.value.trim() || cat.name;
-      const newAmt = parseFloat(container.querySelector(".edit-amount").value) || cat.amount;
+      const newAmt =
+        parseFloat(container.querySelector(".edit-amount").value) || cat.amount;
 
       if (newAmt <= 0) {
         alert("Amount must be greater than 0");
@@ -554,9 +559,10 @@ document.addEventListener("DOMContentLoaded", () => {
       renderSafe();
     });
 
-    container.querySelector(".cancel-edit").addEventListener("click", () => renderSafe());
+    container
+      .querySelector(".cancel-edit")
+      .addEventListener("click", () => renderSafe());
   }
-
 
   // Safe helper to escape text (very minimal)
   function escapeHtml(str) {
@@ -633,7 +639,7 @@ document.addEventListener("DOMContentLoaded", () => {
   populateAddColors();
   renderSafe();
 
-// Modal Opening and Closing Animation
+  // Modal Opening and Closing Animation
   const p250Card = document.querySelector(".floating-card.p250-card");
 
   if (p250Card) {
@@ -696,14 +702,158 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Add keyboard shortcuts for power users
-  document.addEventListener('keydown', (e) => {
-    if (modal.style.display !== 'flex') return;
-    
+  document.addEventListener("keydown", (e) => {
+    if (modal.style.display !== "flex") return;
+
     // Cmd/Ctrl + S = Save (when editing)
-    if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+    if ((e.metaKey || e.ctrlKey) && e.key === "s") {
       e.preventDefault();
-      const saveBtn = document.querySelector('.save-edit, .save-btn');
+      const saveBtn = document.querySelector(".save-edit, .save-btn");
       if (saveBtn) saveBtn.click();
     }
   });
 });
+
+let currentTab = 0;
+const progressData = [
+  { month: "January", amount: 4000 },
+  { month: "February", amount: 4000 },
+  { month: "March", amount: 4000 },
+  { month: "April", amount: 4000 },
+  { month: "May", amount: 4000 },
+];
+
+const requirements = [
+  { title: "Maintain GPA 3.5+", status: "active", deadline: "2025-12-15" },
+  {
+    title: "Submit progress report",
+    status: "pending",
+    deadline: "2025-11-30",
+  },
+  {
+    title: "Community service 20hrs",
+    status: "active",
+    deadline: "2026-01-15",
+  },
+];
+
+// Initialize
+function init() {
+  populateYears();
+  renderProgress();
+  renderRequirements();
+
+  document.getElementById("scholarshipForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    saveScholarship();
+  });
+}
+
+function populateYears() {
+  const yearSelect = document.getElementById("year");
+  const currentYear = new Date().getFullYear();
+  for (let i = currentYear - 2; i <= currentYear + 2; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    if (i === currentYear) option.selected = true;
+    yearSelect.appendChild(option);
+  }
+}
+
+function openModal() {
+  document.getElementById("scholarshipModal").classList.add("active");
+}
+
+function closeModal() {
+  document.getElementById("scholarshipModal").classList.remove("active");
+}
+
+function switchTab(index) {
+  currentTab = index;
+
+  document.querySelectorAll(".tab-dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === index);
+  });
+
+  document.querySelectorAll(".tab-content").forEach((content, i) => {
+    content.classList.toggle("active", i === index);
+  });
+}
+
+function saveScholarship() {
+  const data = {
+    type: document.getElementById("scholarshipType").value,
+    name: document.getElementById("scholarshipName").value,
+    duration: document.getElementById("duration").value,
+    semester: document.getElementById("semester").value,
+    year: document.getElementById("year").value,
+    month: document.getElementById("month").value,
+    amount: document.getElementById("amount").value,
+  };
+
+  console.log("Saved:", data);
+  alert("Scholarship information saved successfully!");
+}
+
+function renderProgress() {
+  const list = document.getElementById("progressList");
+  const maxAmount = Math.max(...progressData.map((d) => d.amount));
+
+  list.innerHTML = progressData
+    .map(
+      (item) => `
+        <div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-month">${item.month}</span>
+            <span class="progress-amount">₱${item.amount.toLocaleString()}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${(item.amount / maxAmount) * 100}%"></div>
+          </div>
+        </div>
+      `
+    )
+    .join("");
+}
+
+function renderRequirements() {
+  const list = document.getElementById("requirementsList");
+
+  list.innerHTML = requirements
+    .map(
+      (req) => `
+        <div class="requirement-card">
+          <div class="requirement-header">
+            <div class="requirement-title">${req.title}</div>
+            <span class="status-badge status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
+          </div>
+          <div class="requirement-date">
+            📅 Due: ${new Date(req.deadline).toLocaleDateString()}
+          </div>
+        </div>
+      `
+    )
+    .join("");
+}
+
+function addRequirement() {
+  const title = prompt("Enter requirement title:");
+  if (title) {
+    requirements.push({
+      title: title,
+      status: "pending",
+      deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0],
+    });
+    renderRequirements();
+  }
+}
+
+// Close modal on outside click
+window.onclick = (e) => {
+  const modal = document.getElementById("scholarshipModal");
+  if (e.target === modal) closeModal();
+};
+init();

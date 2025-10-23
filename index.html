@@ -343,7 +343,7 @@
       </div>
     </div>
 
-
+    <!-- Budget popup modal -->
     <div id="cardModal" class="modal" aria-hidden="true">
       <div class="modal-content budget-modal" role="dialog" aria-modal="true" aria-labelledby="budgetTitle">
         <span class="close-btn" aria-label="Close modal">&times;</span>
@@ -388,8 +388,128 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <script src="script.js"></script>
+    <!-- Scholarship popup modal -->
+    <div class="scholarship-card" onclick="openModal()">
+      <div class="card-header">
+        <div class="card-icon">S</div>
+        <div class="card-title">Scholarship</div>
+      </div>
+      <div class="card-badge"> Monthly</div>
+      <div class="card-dates">
+        <div class="date-pill">Year: 2025</div>
+        <div class="date-pill">Month: July</div>
+      </div>
+      <div class="card-amount">₱ 4000</div>
+    </div>
+
+    <!-- Scholarship Modal -->
+    <div id="scholarshipModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Scholarship</h2>
+          <div class="header-controls">
+            <div class="tab-indicators">
+              <div class="tab-dot active" onclick="switchTab(0)"></div>
+              <div class="tab-dot" onclick="switchTab(1)"></div>
+              <div class="tab-dot" onclick="switchTab(2)"></div>
+            </div>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <!-- Tab 1: Form -->
+          <div id="tab1" class="tab-content active">
+            <form id="scholarshipForm">
+              <div class="form-group">
+                <label>Scholarship Type</label>
+                <select id="scholarshipType">
+                  <option>Academic</option>
+                  <option>Athletic</option>
+                  <option>Merit-based</option>
+                  <option>Financial aid</option>
+                  <option>Government</option>
+                  <option>Private</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Scholarship Name</label>
+                <input type="text" id="scholarshipName" placeholder="e.g., Dean's List Scholarship">
+              </div>
+
+              <div class="form-group">
+                <label>Duration</label>
+                <select id="duration">
+                  <option>Monthly</option>
+                  <option>Yearly</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Semester</label>
+                  <select id="semester">
+                    <option>1st</option>
+                    <option>2nd</option>
+                    <option>3rd</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Year</label>
+                  <select id="year"></select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Month</label>
+                <select id="month">
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7" selected>July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Amount (₱)</label>
+                <input type="number" id="amount" placeholder="4000" step="0.01">
+              </div>
+
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+          </div>
+
+          <!-- Tab 2: Progress -->
+          <div id="tab2" class="tab-content">
+            <div class="summary-card">
+              <div class="summary-label">Total Received</div>
+              <div class="summary-amount">₱20,000</div>
+            </div>
+
+            <div class="progress-list" id="progressList"></div>
+          </div>
+
+          <!-- Tab 3: Requirements -->
+          <div id="tab3" class="tab-content">
+            <div id="requirementsList"></div>
+            <button class="add-requirement-btn" onclick="addRequirement()">+ Add Requirement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
