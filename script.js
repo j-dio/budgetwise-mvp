@@ -743,6 +743,12 @@ function init() {
   renderProgress();
   renderRequirements();
 
+  // Add click listener to scholarship card
+  const scholarshipCard = document.querySelector(".scholarship-card");
+  if (scholarshipCard) {
+    scholarshipCard.addEventListener("click", openModal);
+  }
+
   document.getElementById("scholarshipForm").addEventListener("submit", (e) => {
     e.preventDefault();
     saveScholarship();
@@ -856,4 +862,5 @@ window.onclick = (e) => {
   const modal = document.getElementById("scholarshipModal");
   if (e.target === modal) closeModal();
 };
+
 init();
