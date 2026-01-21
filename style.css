@@ -588,6 +588,8 @@ section {
 /* ======= Modal Styles ======*/
 .modal {
   display: none;
+  opacity: 0;
+  transition: opacity 0.3 ease;
   position: fixed;
   z-index: 9999;
   left: 0;
@@ -776,6 +778,7 @@ section {
   display: flex;
   opacity: 1;
   visibility: visible;
+  animation: fadeIn 0.3s ease;
 }
 
 /* Modal Content */
@@ -786,6 +789,13 @@ section {
   max-width: 380px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal.active .modal-content {
+  transform: translateY(0);
+  animation: slideUp 0.3s ease;
 }
 
 /* Modal Header */
@@ -912,7 +922,7 @@ section {
 .save-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd, #1d4ed8);
   color: white;
   border: none;
   border-radius: 12px;
@@ -935,7 +945,7 @@ section {
 
 /* Progress Chart Styles */
 .summary-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd 0%, rgb(41, 63, 85) 100%);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 20px;
@@ -992,7 +1002,7 @@ section {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd 0%, rgb(41, 63, 85) 100%);
   border-radius: 4px;
   transition: width 0.5s ease;
 }
@@ -1097,7 +1107,7 @@ section {
 .card-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd, #1d4ed8);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -1114,7 +1124,7 @@ section {
 }
 
 .card-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd, #1d4ed8);
   color: white;
   padding: 6px 14px;
   border-radius: 20px;
@@ -1210,6 +1220,12 @@ section {
 }
 
 #cardModal.modal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Allow the JS-used `active` class to also show the card modal */
+#cardModal.active {
   opacity: 1;
   transform: translateY(0);
 }
@@ -1668,7 +1684,7 @@ section {
 
 /* Scholarship Card */
 .scholarship-header {
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  background: linear-gradient(135deg, #72adfd 0%, rgb(41, 63, 85) 100%);
   color: white;
   padding: 8px 16px;
   border-radius: 20px;

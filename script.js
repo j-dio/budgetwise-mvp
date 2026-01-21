@@ -1,5 +1,3 @@
-// script.js
-// Image Popup functionality
 const learnMoreBtn = document.getElementById("learnMoreBtn");
 const popup = document.getElementById("imagePopup");
 const closeBtn = document.getElementById("closePopup");
@@ -21,12 +19,10 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
   let start = { x: 0, y: 0 };
   let dragged = false;
 
-  // --- Helper: Apply transform ---
   function setTransform() {
     popupImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
   }
 
-  // --- Helper: Reset zoom ---
   function resetZoom() {
     scale = 1;
     pointX = 0;
@@ -36,7 +32,6 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     imageContainer.classList.remove("zoomed");
   }
 
-  // --- Popup open/close ---
   function closePopup() {
     popup.classList.remove("active");
     document.body.style.overflow = "auto";
@@ -60,30 +55,22 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     if (e.key === "Escape" && popup.classList.contains("active")) closePopup();
   });
 
-  // --- Scroll wheel zoom toward cursor ---
   imageContainer.addEventListener("wheel", (e) => {
     e.preventDefault();
 
-    const zoomIntensity = 0.05; // smaller = smoother
+    const zoomIntensity = 0.05;
     const rect = popupImage.getBoundingClientRect();
-
-    // Mouse position relative to image
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-
-    // Relative coordinates before scaling
     const prevX = (mouseX - pointX) / scale;
     const prevY = (mouseY - pointY) / scale;
 
-    // Apply zoom
-    if (e.deltaY < 0)
-      scale *= 1 + zoomIntensity; // zoom in
-    else scale /= 1 + zoomIntensity; // zoom out
+    if (e.deltaY < 0) scale *= 1 + zoomIntensity;
+    else scale /= 1 + zoomIntensity;
 
     if (scale < MIN_ZOOM) scale = MIN_ZOOM;
     if (scale > MAX_ZOOM) scale = MAX_ZOOM;
 
-    // Keep zoom centered on mouse position
     pointX = mouseX - prevX * scale;
     pointY = mouseY - prevY * scale;
 
@@ -97,7 +84,6 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     setTransform();
   });
 
-  // --- Zoom buttons (optional) ---
   if (zoomInBtn) {
     zoomInBtn.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -125,7 +111,6 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     });
   }
 
-  // --- Panning (persistent drag) ---
   popupImage.addEventListener("mousedown", (e) => {
     if (scale > 1) {
       e.preventDefault();
@@ -150,7 +135,6 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     imageContainer.style.cursor = "grab";
   });
 
-  // --- Click to zoom toggle (only if not dragged) ---
   popupImage.addEventListener("click", (e) => {
     if (dragged) {
       dragged = false;
@@ -162,15 +146,13 @@ if (learnMoreBtn && popup && closeBtn && popupImage && imageContainer) {
     const clickY = e.clientY - rect.top;
 
     if (scale === 1) {
-      const targetZoom = 1.5; // adjust as desired
+      const targetZoom = 1.5;
       const prevScale = scale;
       scale = targetZoom;
 
-      // Compute relative position before zoom
       const relX = (clickX - pointX) / prevScale;
       const relY = (clickY - pointY) / prevScale;
 
-      // Adjust so zoom focuses where clicked
       pointX = clickX - relX * scale;
       pointY = clickY - relY * scale;
 
@@ -227,11 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const addColorPalette = document.getElementById("addColorPalette");
   const saveNewBtn = document.getElementById("saveNewCategory");
   const cancelNewBtn = document.getElementById("cancelNewCategory");
-
-  // Palette — adjust as you like (keeps to blue theme)
   const colorPalette = ["#1f2937", "#3b82f6", "#60a5fa", "#93c5fd", "#2563eb"];
 
-  // Default categories (sum = 250.00)
   let categories = [
     { name: "Food", amount: 75.0, color: "#1f2937" },
     { name: "Transportation", amount: 62.5, color: "#3b82f6" },
@@ -239,23 +218,19 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Grocery", amount: 62.5, color: "#60a5fa" },
   ];
 
-  // Utility: format currency
   function formatCurrency(v) {
-    return "₱" + Number(v).toFixed(2);
+    return "P" + Number(v).toFixed(2);
   }
 
   function calculateTotal() {
     return categories.reduce((s, c) => s + Number(c.amount || 0), 0);
   }
 
-  // Render donut based on categories
-  // Show visual feedback when budget changes
   function renderDonut() {
     const total = calculateTotal();
     const previousTotal = donutEl.dataset.previousTotal || total;
 
     if (totalBudgetEl) {
-      // Animate number change
       animateValue(totalBudgetEl, parseFloat(previousTotal), total, 500);
     }
 
@@ -269,7 +244,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Build conic-gradient
     let start = 0;
     const stops = categories.map((c) => {
       const deg = (Number(c.amount) / total) * 360;
@@ -281,7 +255,6 @@ document.addEventListener("DOMContentLoaded", () => {
     donutEl.innerHTML = centerHtml;
   }
 
-  // Smoothly animates number changes in budget
   function animateValue(element, start, end, duration) {
     const startTime = performance.now();
 
@@ -290,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const eased =
         progress < 0.5
           ? 2 * progress * progress
-          : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
+          : -1 + (4 - 2 * progress) * progress;
       const current = start + (end - start) * eased;
       element.textContent = formatCurrency(current);
       if (progress < 1) requestAnimationFrame(step);
@@ -299,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(step);
   }
 
-  // Render legend (editable rows)
   function renderLegend() {
     legendEl.innerHTML = "";
     categories.forEach((c, i) => {
@@ -307,7 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
       row.className = "legend-item-flex";
       row.dataset.index = i;
 
-      // markup: left color + name, right amount + edit/delete
       row.innerHTML = `
       <div class="legend-left">
         <span class="legend-color" style="background:${c.color}"></span>
@@ -325,21 +296,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Smooth expand/collapse animation for category details
-  // Handle clicks on legend items and color circles separately
   document.addEventListener("click", (e) => {
     const colorCircle = e.target.closest(".legend-color");
     const item = e.target.closest(".legend-item-flex");
 
-    // ✅ CASE 1: Clicked on color circle → open color picker
     if (colorCircle) {
-      e.stopPropagation(); // prevent triggering slide-down
+      e.stopPropagation();
       const index = Number(item.dataset.index);
       openColorPicker(colorCircle, index);
       return;
     }
 
-    // ✅ CASE 2: Clicked inside a legend item (not color) → toggle details
     if (
       item &&
       !e.target.closest(".edit-btn") &&
@@ -353,14 +320,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isOpen) {
         const currentHeight = details.scrollHeight;
         details.style.maxHeight = currentHeight + "px";
-        details.offsetHeight; // force reflow
+        details.offsetHeight;
         details.style.maxHeight = "0";
         item.classList.remove("active");
       } else {
         details.style.maxHeight = details.scrollHeight + "px";
         item.classList.add("active");
 
-        // 🔥 after animation ends, set to auto so it won't cut
         details.addEventListener(
           "transitionend",
           () => {
@@ -368,13 +334,12 @@ document.addEventListener("DOMContentLoaded", () => {
               details.style.maxHeight = "none";
             }
           },
-          { once: true }
+          { once: true },
         );
       }
     }
   });
 
-  // Setup add-form color swatches
   function populateAddColors() {
     addColorPalette.innerHTML = "";
     colorPalette.forEach((col, idx) => {
@@ -395,18 +360,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Add new category
   function addCategoryFromForm() {
     const name = newNameInput.value.trim();
     const amount = parseFloat(newAmountInput.value);
     const sw = addColorPalette.querySelector(".color-swatch.selected");
     const color = sw ? sw.dataset.color : colorPalette[0];
 
-    // Clear previous errors
     newNameInput.classList.remove("error", "success");
     newAmountInput.classList.remove("error", "success");
 
-    // Validation with visual feedback
     if (!name) {
       newNameInput.classList.add("error");
       newNameInput.focus();
@@ -414,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Check for duplicates
     if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
       newNameInput.classList.add("error");
       showToast("Category already exists", "error");
@@ -428,16 +389,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Success animation
     newNameInput.classList.add("success");
     newAmountInput.classList.add("success");
 
     categories.push({ name, amount, color });
 
-    // Show success feedback
     showToast(`${name} added successfully!`, "success");
 
-    // Reset form
     setTimeout(() => {
       newNameInput.value = "";
       newAmountInput.value = "";
@@ -448,7 +406,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
   }
 
-  // Toast notification system
   function showToast(message, type = "info") {
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
@@ -462,9 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   }
 
-  // Floating color picker (like Notion label picker)
   function openColorPicker(anchorEl, index) {
-    // Close existing picker if open
     const existing = document.querySelector(".color-picker-popup");
     if (existing) existing.remove();
 
@@ -485,7 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Position near clicked circle
     const rect = anchorEl.getBoundingClientRect();
     picker.style.position = "absolute";
     picker.style.left = `${rect.left + window.scrollX}px`;
@@ -493,10 +447,8 @@ document.addEventListener("DOMContentLoaded", () => {
     picker.style.zIndex = 9999;
 
     document.body.appendChild(picker);
-
     requestAnimationFrame(() => picker.classList.add("show"));
 
-    // Close picker when clicking outside
     const closePicker = (e) => {
       if (!picker.contains(e.target)) {
         picker.remove();
@@ -506,7 +458,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => document.addEventListener("click", closePicker), 10);
   }
 
-  // Edit a category inline
   function openEditFormAt(index) {
     const container = legendEl.children[index];
     const cat = categories[index];
@@ -564,7 +515,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .addEventListener("click", () => renderSafe());
   }
 
-  // Safe helper to escape text (very minimal)
   function escapeHtml(str) {
     return String(str).replace(
       /[&<>"']/g,
@@ -575,27 +525,17 @@ document.addEventListener("DOMContentLoaded", () => {
           ">": "&gt;",
           '"': "&quot;",
           "'": "&#39;",
-        })[m]
+        })[m],
     );
   }
 
-  // Render everything and attach listeners
   function renderSafe() {
     renderDonut();
     renderLegend();
     attachLegendListeners();
   }
 
-  function safeRender() {
-    legendEl.classList.add("rendering");
-    requestAnimationFrame(() => {
-      renderAll();
-      setTimeout(() => legendEl.classList.remove("rendering"), 150);
-    });
-  }
-
   function attachLegendListeners() {
-    // delete
     legendEl.querySelectorAll(".del-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const idx = Number(btn.dataset.idx);
@@ -606,7 +546,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // edit
     legendEl.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const idx = Number(btn.dataset.idx);
@@ -614,13 +553,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // also allow clicking the name to open edit form
     legendEl.querySelectorAll(".legend-name").forEach((el, idx) => {
       el.addEventListener("click", () => openEditFormAt(idx));
     });
   }
 
-  // show/hide add form
   addBtn.addEventListener("click", () => {
     addForm.classList.toggle("hidden");
     if (!addForm.classList.contains("hidden")) {
@@ -635,77 +572,47 @@ document.addEventListener("DOMContentLoaded", () => {
     newAmountInput.value = "";
   });
 
-  // prepare color palette & initial render
   populateAddColors();
   renderSafe();
 
-  // Modal Opening and Closing Animation
   const p250Card = document.querySelector(".floating-card.p250-card");
 
+  function openCardModal() {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+    renderSafe();
+
+    const firstInput = modal.querySelector("input, button");
+    if (firstInput) firstInput.focus();
+  }
+
+  function closeCardModal() {
+    modal.classList.remove("active");
+    document.body.style.overflow = "auto";
+  }
+
   if (p250Card) {
-    p250Card.addEventListener("click", () => {
-      // Add smooth transition
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden", "false");
-
-      // Prevent body scroll
-      document.body.style.overflow = "hidden";
-
-      // Add entrance animation (fade/slide in)
-      requestAnimationFrame(() => {
-        modal.classList.add("modal-active");
-      });
-
-      renderSafe();
-
-      // Focus management for accessibility
-      const firstInput = modal.querySelector("input, button");
-      if (firstInput) firstInput.focus();
+    p250Card.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openCardModal();
     });
   }
 
-  // --- Smooth modal close ---
-  function closeModal() {
-    modal.classList.remove("modal-active");
-    setTimeout(() => {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "auto";
-    }, 300); // matches your CSS transition duration
-  }
-
-  closeBtn.addEventListener("click", closeModal);
-
-  modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("modal-active")) {
-      closeModal();
-    }
-  });
+  closeBtn.addEventListener("click", closeCardModal);
 
   modal.addEventListener("click", (event) => {
     if (event.target === modal) {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
+      closeCardModal();
     }
   });
 
-  // escape key to close
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.style.display === "flex") {
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
+    if (!modal.classList.contains("active")) return;
+
+    if (e.key === "Escape") {
+      closeCardModal();
     }
-  });
 
-  // Add keyboard shortcuts for power users
-  document.addEventListener("keydown", (e) => {
-    if (modal.style.display !== "flex") return;
-
-    // Cmd/Ctrl + S = Save (when editing)
     if ((e.metaKey || e.ctrlKey) && e.key === "s") {
       e.preventDefault();
       const saveBtn = document.querySelector(".save-edit, .save-btn");
@@ -731,19 +638,17 @@ const requirements = [
     deadline: "2025-11-30",
   },
   {
-    title: "Community service 20hrs",
+    title: "Community Service 20 hrs",
     status: "active",
     deadline: "2026-01-15",
   },
 ];
 
-// Initialize
 function init() {
   populateYears();
   renderProgress();
   renderRequirements();
 
-  // Add click listener to scholarship card
   const scholarshipCard = document.querySelector(".scholarship-card");
   if (scholarshipCard) {
     scholarshipCard.addEventListener("click", openModal);
@@ -812,13 +717,13 @@ function renderProgress() {
         <div class="progress-item">
           <div class="progress-header">
             <span class="progress-month">${item.month}</span>
-            <span class="progress-amount">₱${item.amount.toLocaleString()}</span>
+            <span class="progress-amount">P${item.amount.toLocaleString()}</span>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${(item.amount / maxAmount) * 100}%"></div>
           </div>
         </div>
-      `
+      `,
     )
     .join("");
 }
@@ -835,10 +740,10 @@ function renderRequirements() {
             <span class="status-badge status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
           </div>
           <div class="requirement-date">
-            📅 Due: ${new Date(req.deadline).toLocaleDateString()}
+            Due: ${new Date(req.deadline).toLocaleDateString()}
           </div>
         </div>
-      `
+      `,
     )
     .join("");
 }
@@ -857,7 +762,6 @@ function addRequirement() {
   }
 }
 
-// Close modal on outside click
 window.onclick = (e) => {
   const modal = document.getElementById("scholarshipModal");
   if (e.target === modal) closeModal();
