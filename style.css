@@ -505,6 +505,27 @@ section {
     drop-shadow(0 0 60px rgba(59, 130, 246, 0.3));
 }
 
+.floating-card.scholarship-card:hover::after {
+  opacity: 1;
+}
+
+.floating-card.scholarship-card::after {
+  content: "Click to try";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(59, 130, 246, 0.95);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 .floating-card.ewallet-card {
   top: 20%;
   right: 10%;
@@ -769,7 +790,7 @@ section {
 
 /* Modal Header */
 .modal-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #72adfd 0%, rgb(41, 63, 85) 100%);
   padding: 20px 24px;
   display: flex;
   justify-content: space-between;
