@@ -2158,8 +2158,12 @@ section {
   color: #1f2937;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: 40px;
-  width: 100%;
+  margin: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 80px);
+  text-decoration: none;
 }
 
 .get-started-btn:hover {
@@ -2271,6 +2275,8 @@ section {
   transition: all 0.2s ease;
   position: relative;
   z-index: 1;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .contact-cta-btn:hover {
